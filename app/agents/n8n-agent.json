@@ -1,0 +1,23 @@
+{
+  "id": "n8n-agent",
+  "name": "BiblioBot",
+  "type": "n8n",
+  "styles": {
+    "primary_color": "#ff6600",
+    "secondary_color": "#6c757d",
+    "border_radius": "12px",
+    "position": "bottom-right",
+    "widget_size": "medium",
+    "font_family": "Arial, sans-serif"
+  },
+  "messages": {
+    "welcome": "¡Hola! ¿En qué puedo ayudarte?",
+    "placeholder": "Escribe tu mensaje...",
+    "error": "Lo siento, ha ocurrido un error. Por favor, inténtalo de nuevo."
+  },
+  "enabled": true,
+  "allowed_domains": ["localhost:8000"],
+  "n8n_config": {
+    "webhook_url": "https://iese.app.n8n.cloud/webhook/3d0f08c5-457c-4d73-a1da-22c5022c07a1"
+  }
+} 

@@ -1,0 +1,34 @@
+{
+  "id": "custom-agent",
+  "name": "Mi Backend Personalizado",
+  "type": "custom",
+  "chat_endpoint": "https://mi-api.com/chat",
+  "styles": {
+    "primary_color": "#007bff",
+    "secondary_color": "#6c757d",
+    "border_radius": "12px",
+    "position": "bottom-left",
+    "widget_size": "medium",
+    "font_family": "Arial, sans-serif"
+  },
+  "messages": {
+    "welcome": "¡Hola! Soy tu asistente personalizado.",
+    "placeholder": "Escribe tu mensaje...",
+    "error": "Lo siento, ha ocurrido un error. Inténtalo de nuevo."
+  },
+  "enabled": true,
+  "allowed_domains": ["localhost:8000"],
+  "custom_config": {
+    "headers": {
+      "Authorization": "Bearer mi-token",
+      "Content-Type": "application/json",
+      "X-Custom-Header": "valor"
+    },
+    "body_structure": {
+      "query": "{message}",
+      "session_id": "{conversation_id}",
+      "max_length": 100
+    },
+    "response_path": "data.response"
+  }
+} 

@@ -1,0 +1,38 @@
+{
+  "id": "openai-agent",
+  "name": "BiblioBot",
+  "type": "openai",
+  "styles": {
+    "primary_color": "#007bff",
+    "secondary_color": "#6c757d",
+    "border_radius": "12px",
+    "position": "bottom-right",
+    "widget_size": "medium",
+    "font_family": "Arial, sans-serif"
+  },
+  "messages": {
+    "welcome": "¡Hola! ¿En qué puedo ayudarte hoy?",
+    "placeholder": "Escribe tu mensaje aquí...",
+    "error": "Lo siento, ha ocurrido un error. Por favor, inténtalo de nuevo."
+  },
+  "enabled": true,
+  "allowed_domains": [
+    "localhost:8000",
+    "miempresa.com",
+    "www.miempresa.com",
+    "staging.miempresa.com"
+  ],
+  "openai_config": {
+    "model": "gpt-4.1",
+    "instructions": "Eres un asistente de la biblioteca de IESE./n/nRecibirás una pregunta de un usuario. Si necesitas encontrar información relacionada, puedes usar la herramienta de búsqueda que tienes disponible./n/n1. Usa la herramienta de búsqueda semántica (vector store) si la pregunta puede estar respondida en la base de datos./n2. Si no encuentras información relevante, responde de forma amable indicando que no tienes datos para responder./n3. Responde de forma clara, útil y profesional.",
+    "max_output_tokens": 2000,
+    "temperature": 0.3,
+    "top_p": 1.0,
+    "tools": [
+      {
+        "type": "file_search",
+        "vector_store_ids": ["vs_uKwEIlxYIkSNL1tesZgCGVQs"]
+      }
+    ]
+  }
+} 
