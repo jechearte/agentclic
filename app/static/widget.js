@@ -14,7 +14,7 @@
             this.previousResponseId = null; // Para mantener el contexto de OpenAI
             this.isOpen = false;
             this.isInitialized = false;
-            this.apiBase = window.location.origin; // URL base de la API
+            this.apiBase = null; // Se determinará desde el script src
             
             this.init();
         }
@@ -34,6 +34,18 @@
             if (!this.agentId) {
                 console.error('EmbeddableChatbot: data-agent-id es requerido');
                 return;
+            }
+            
+            // Extraer la URL base del src del script
+            const scriptSrc = widgetScript.src;
+            if (scriptSrc) {
+                // Extraer la URL base (todo antes de /widget.js)
+                this.apiBase = scriptSrc.replace('/widget.js', '');
+                console.log(`EmbeddableChatbot: API base detectada desde script: ${this.apiBase}`);
+            } else {
+                // Fallback a window.location.origin si no se puede detectar
+                this.apiBase = window.location.origin;
+                console.warn('EmbeddableChatbot: No se pudo detectar URL del script, usando window.location.origin');
             }
             
             // Cargar configuración del agente primero

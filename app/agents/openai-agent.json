@@ -18,9 +18,7 @@
   "enabled": true,
   "allowed_domains": [
     "localhost:8000",
-    "miempresa.com",
-    "www.miempresa.com",
-    "staging.miempresa.com"
+    "ecuademy.app"
   ],
   "openai_config": {
     "model": "gpt-4.1",

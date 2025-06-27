@@ -13,8 +13,9 @@ COPY . .
 # Crear directorio para archivos estáticos si no existe
 RUN mkdir -p app/static
 
-# Exponer puerto
-EXPOSE 8000
+# Exponer puerto (Cloud Run usa PORT dinámico)
+EXPOSE 8080
 
 # Comando para ejecutar la aplicación
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"] 
+# Cloud Run proporciona PORT como variable de entorno
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"] 
