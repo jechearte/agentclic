@@ -17,8 +17,9 @@
   },
   "enabled": true,
   "allowed_domains": [
-    "localhost:8000",
-    "ecuademy.app"
+    "localhost:8010",
+    "ecuademy.app",
+    "https://embeddable-chatbot-172271109176.europe-southwest1.run.app"
   ],
   "openai_config": {
     "model": "gpt-4.1",

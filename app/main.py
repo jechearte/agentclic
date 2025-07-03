@@ -59,7 +59,7 @@ async def get_widget_script():
 
 @app.get("/test", response_class=HTMLResponse)
 async def get_test_page():
-    """Sirve la página de prueba del widget"""
+    """Sirve la página de prueba del widget con selector de agentes"""
     try:
         with open("test.html", "r", encoding="utf-8") as f:
             html_content = f.read()
@@ -68,7 +68,45 @@ async def get_test_page():
         raise HTTPException(status_code=404, detail="Página de prueba no encontrada")
 
 
-
+@app.get("/test/{agent_id}", response_class=HTMLResponse)
+async def get_test_page_with_agent(agent_id: str):
+    """Sirve la página de prueba del widget con un agente específico (página en blanco)"""
+    # Verificar que el agente existe y está habilitado
+    agent = config_manager.get_agent(agent_id)
+    if not agent:
+        raise HTTPException(status_code=404, detail=f"Agente '{agent_id}' no encontrado")
+    
+    if not agent.enabled:
+        raise HTTPException(status_code=403, detail=f"Agente '{agent_id}' está deshabilitado")
+    
+    try:
+        # Crear HTML en blanco con el agente específico
+        html_content = f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - {agent.name}</title>
+    <style>
+        body {{
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: Arial, sans-serif;
+        }}
+    </style>
+</head>
+<body>
+    <!-- Página completamente blanca para pruebas del widget -->
+    
+    <!-- Widget del chatbot -->
+    <script src="/widget.js" data-agent-id="{agent_id}"></script>
+</body>
+</html>"""
+        
+        return html_content
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generando página de prueba: {str(e)}")
 
 
 @app.get("/public-config/{agent_id}", response_model=PublicAgentConfig)
