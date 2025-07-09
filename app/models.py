@@ -10,9 +10,10 @@ class ChatMessage(BaseModel):
 
 
 class ChatResponse(BaseModel):
-    response: str
+    response: str  # Ahora puede contener HTML para enlaces
     conversation_id: Optional[str] = None
     response_id: Optional[str] = None  # ID de respuesta de OpenAI para contexto
+    content_type: str = "html"  # Indicar que el contenido puede tener HTML
 
 
 class AgentStyles(BaseModel):
@@ -63,6 +64,7 @@ class OpenAIConfig(BaseModel):
     temperature: float = 0.3
     top_p: float = 1.0
     tools: List[Dict[str, Any]] = []  # Tools configurables para OpenAI
+    pinecone_index: Optional[str] = None  # Nombre del índice de Pinecone para búsquedas semánticas
 
 
 class N8NConfig(BaseModel):
