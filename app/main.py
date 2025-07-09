@@ -1,12 +1,14 @@
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 import json
+from pathlib import Path
 from .config import config_manager
 from .models import ChatMessage, ChatResponse, PublicAgentConfig
 from .chat_service import ChatService
+from .metrics_service import metrics_service
 
 app = FastAPI(
     title="Embeddable Chatbot API",
@@ -145,6 +147,10 @@ async def proxy_chat(agent_id: str, message: ChatMessage):
     if not agent.enabled:
         raise HTTPException(status_code=403, detail=f"Agente '{agent_id}' está deshabilitado")
     
+    # Registrar mensaje en métricas ANTES de procesarlo
+    if message.conversation_id:
+        metrics_service.record_message(agent_id, message.conversation_id)
+    
     try:
         return await ChatService.send_message(agent, message)
         
@@ -185,6 +191,21 @@ async def reload_configuration():
         "agents_loaded": len(agents),
         "agents": list(agents.keys())
     }
+
+
+@app.get("/metrics/download")
+async def download_metrics():
+    """Descarga el archivo CSV con todas las métricas"""
+    csv_file = Path("app/metrics/messages.csv")
+    
+    if not csv_file.exists():
+        raise HTTPException(status_code=404, detail="Archivo de métricas no encontrado")
+    
+    return FileResponse(
+        path=csv_file,
+        filename="chatbot_metrics.csv",
+        media_type="text/csv"
+    )
 
 
 if __name__ == "__main__":
