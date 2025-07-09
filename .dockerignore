@@ -26,6 +26,10 @@ Thumbs.db
 *.swp
 *.swo
 
+# Git
+.git
+.gitignore
+
 # Logs
 *.log
 logs/
@@ -35,4 +39,8 @@ logs/
 *.temp
 
 # Archivos de métricas
-app/metrics/messages.csv 
+app/metrics/messages.csv
+
+# Archivos de documentación
+README.md
+*.md
